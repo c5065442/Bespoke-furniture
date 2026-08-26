@@ -2,8 +2,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { ChatWidget } from "./components/ChatWidget";
 import { DashboardLayout } from "./components/DashboardLayout";
+import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { RequireAuth, RequireStaff } from "./components/RequireAuth";
+import { ContactPage } from "./pages/ContactPage";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { CustomersPage } from "./pages/dashboard/CustomersPage";
@@ -27,6 +29,7 @@ function App() {
           <Route path="/order/new" element={<OrderForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/my-orders"
             element={
@@ -50,6 +53,7 @@ function App() {
           </Route>
         </Routes>
       </main>
+      <Footer />
       <ChatWidget />
     </div>
   );

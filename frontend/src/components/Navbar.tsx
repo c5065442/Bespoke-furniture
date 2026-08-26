@@ -11,6 +11,7 @@ export function Navbar() {
       </div>
       <div className="navbar-links">
         <Link to="/products">Products</Link>
+        <Link to="/contact">Contact</Link>
         {isStaff && <Link to="/dashboard">Staff Dashboard</Link>}
         {user && !isStaff && <Link to="/my-orders">My Orders</Link>}
         {user ? (
