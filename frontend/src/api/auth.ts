@@ -41,3 +41,10 @@ export function logout() {
   localStorage.removeItem("bfc_access_token");
   localStorage.removeItem("bfc_refresh_token");
 }
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
+  await client.post("/auth/change-password/", {
+    current_password: currentPassword,
+    new_password: newPassword,
+  });
+}

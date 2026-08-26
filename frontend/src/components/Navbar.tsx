@@ -17,6 +17,7 @@ export function Navbar() {
         {user ? (
           <>
             <span className="navbar-user">{user.first_name || user.username}</span>
+            <Link to="/change-password">Change password</Link>
             <button onClick={logout}>Log out</button>
           </>
         ) : (

@@ -5,6 +5,7 @@ import { DashboardLayout } from "./components/DashboardLayout";
 import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { RequireAuth, RequireStaff } from "./components/RequireAuth";
+import { ChangePasswordPage } from "./pages/ChangePasswordPage";
 import { ContactPage } from "./pages/ContactPage";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -35,6 +36,14 @@ function App() {
             element={
               <RequireAuth>
                 <MyOrdersPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/change-password"
+            element={
+              <RequireAuth>
+                <ChangePasswordPage />
               </RequireAuth>
             }
           />
