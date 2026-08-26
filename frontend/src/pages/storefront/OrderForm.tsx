@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createOrder, type NewOrderItemInput, type PaymentMethod } from "../../api/orders";
 import type { Order, Product, ProductVariant } from "../../api/types";
+import { lookupPostcode } from "../../api/postcode";
 import { useAuth } from "../../auth/AuthContext";
 import { Modal } from "../../components/Modal";
 import { StripePaymentForm } from "../../components/StripePaymentForm";
+
+type PostcodeStatus = "idle" | "checking" | "valid" | "invalid" | "error";
 
 interface LocationState {
   product?: Product;
@@ -32,6 +35,8 @@ export function OrderForm() {
   const [line1, setLine1] = useState("");
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
+  const [postcodeStatus, setPostcodeStatus] = useState<PostcodeStatus>("idle");
+  const [postcodeCity, setPostcodeCity] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [designNotes, setDesignNotes] = useState("");
   const [width, setWidth] = useState(500);
@@ -53,6 +58,27 @@ export function OrderForm() {
       setEmail((prev) => prev || user.email);
     }
   }, [user]);
+
+  async function handlePostcodeBlur() {
+    if (!postcode.trim()) {
+      setPostcodeStatus("idle");
+      return;
+    }
+    setPostcodeStatus("checking");
+    try {
+      const result = await lookupPostcode(postcode);
+      if (result.valid) {
+        setPostcodeStatus("valid");
+        setPostcodeCity(result.city ?? null);
+        setCity((prev) => prev || result.city || "");
+      } else {
+        setPostcodeStatus("invalid");
+        setPostcodeCity(null);
+      }
+    } catch {
+      setPostcodeStatus("error");
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -132,8 +158,23 @@ export function OrderForm() {
           </label>
           <label>
             Postcode
-            <input required value={postcode} onChange={(e) => setPostcode(e.target.value)} />
+            <input
+              required
+              value={postcode}
+              onChange={(e) => {
+                setPostcode(e.target.value);
+                setPostcodeStatus("idle");
+              }}
+              onBlur={handlePostcodeBlur}
+            />
           </label>
+          {postcodeStatus === "checking" && <p className="hint">Checking postcode…</p>}
+          {postcodeStatus === "valid" && (
+            <p className="hint">Recognised postcode{postcodeCity ? ` in ${postcodeCity}` : ""}.</p>
+          )}
+          {postcodeStatus === "invalid" && (
+            <p className="error">That postcode wasn't recognised — please double-check it.</p>
+          )}
         </fieldset>
 
         <fieldset>
