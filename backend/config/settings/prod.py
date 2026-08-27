@@ -1,6 +1,21 @@
-from .base import *  # noqa: F401,F403
+from .base import *
 
-# Placeholder for a future production deployment (e.g. Postgres swap, real
-# ALLOWED_HOSTS, HTTPS-only cookies). Not used by this coursework build.
+ALLOWED_HOSTS = ['Afeez.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 DEBUG = False
+
+
+STATIC_ROOT = '/home/Afeez/static/'
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+SECURE_SSL_REDIRECT = False  
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
