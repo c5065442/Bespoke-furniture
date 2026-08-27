@@ -61,7 +61,12 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        # Lets TemplateView(template_name="index.html") in config.urls find
+        # the built frontend in production (frontend/dist/index.html, after
+        # `npm run build`); harmless in dev, where that directory just
+        # doesn't exist yet and isn't used — the Vite dev server serves the
+        # frontend directly on :5173 instead.
+        "DIRS": [BASE_DIR.parent / "frontend" / "dist"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
