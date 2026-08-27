@@ -19,7 +19,6 @@ def api_root(request):
         }
     )
 
-
 @csrf_exempt
 @require_GET
 def api_index(request):
@@ -30,7 +29,6 @@ def api_index(request):
             "v1": request.build_absolute_uri("/api/v1/"),
         }
     )
-
 
 @csrf_exempt
 @require_GET
@@ -43,9 +41,11 @@ def favicon(request):
         content_type="image/svg+xml",
     )
 
-
 urlpatterns = [
-    path("", api_root),
+    
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+
+    
     path("favicon.ico", favicon),
     path("api/", api_index),
     path("admin/", admin.site.urls),
@@ -55,7 +55,6 @@ urlpatterns = [
     path("api/v1/", include("apps.orders.urls")),
     path("api/v1/", include("apps.delivery.urls")),
     path("api/v1/", include("apps.manufacturing.urls")),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
 ]
 
 if settings.DEBUG:
