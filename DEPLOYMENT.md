@@ -1,4 +1,4 @@
-# Deploying to PythonAnywhere (afeez.pythonanywhere.com)
+ # Deploying to PythonAnywhere (afeez.pythonanywhere.com)
 
 Django serves both the API and the built React frontend from one PythonAnywhere web app — no separate Node hosting needed. This has been tested locally under `config.settings.prod` and works correctly (root serves the built app, client-side routes like `/products/5` don't 404, `/api/v1/...` and `/admin/` are unaffected).
 

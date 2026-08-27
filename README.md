@@ -2,7 +2,14 @@
 
 An order management and delivery planning system for a fictitious bespoke furniture company: a customer storefront, automated delivery route optimisation, a staff dashboard, manufacturing list generation, driver exports, predictive delivery-run batching, and a driver mobile app.
 
+
+# GitHub Repository
+https://github.com/c5065442/Bespoke-furniture.git
+
+
+
 ## Architecture
+
 
 ```
 backend/    Django + Django REST Framework API (SQLite in dev)
@@ -42,11 +49,12 @@ All three clients talk to the same backend REST API (`/api/v1/...`) using JWT au
 cd backend
 py -3.13 -m venv .venv
 ./.venv/Scripts/pip install -r requirements-dev.txt
-cp .env.example .env   # fill in GOOGLE_MAPS_API_KEY / STRIPE_* keys; a real SECRET_KEY is auto-generated below
+cp .env.example .env   
 ./.venv/Scripts/python manage.py migrate
 ./.venv/Scripts/python manage.py createsuperuser
-./.venv/Scripts/python manage.py seed_demo_data   # optional: realistic demo products/vans/orders
+./.venv/Scripts/python manage.py seed_demo_data   
 ./.venv/Scripts/python manage.py runserver
+ Start the development server python manage.py runserver
 ```
 
 Run the test suite: `./.venv/Scripts/python -m pytest apps/`
@@ -63,7 +71,7 @@ Run the test suite: `./.venv/Scripts/python -m pytest apps/`
 ```sh
 cd frontend
 npm install
-cp .env.example .env   # defaults to http://127.0.0.1:8000/api/v1
+cp .env.example .env  
 npm run dev
 ```
 
@@ -80,14 +88,3 @@ cp .env.example .env
 npx expo start
 ```
 
-Sign in with a user whose `role` is `DRIVER` (the seed script creates `driver1` / `DevDriver123!`) and assign them to a locked `DeliveryRun` (via Django admin or the API) to see it appear under "My Runs".
-
-## Typical demo flow
-
-1. Seed data: `python manage.py seed_demo_data`
-2. As a customer: browse products at `/products`, place an order (optionally attaching a design photo)
-3. As staff: sign in, confirm the order in the dashboard (triggers van/parcel classification)
-4. Delivery Planning: pick a date, click "Plan runs", review the draft route, reorder stops if needed, lock the run
-5. Locking generates the manufacturing list and unlocks CSV/PDF export
-6. The "Suggested runs" widget shows which regions need scheduling next, based on pending order volume and age
-7. As a driver (mobile app): sign in, view the locked run under "My Runs", open a stop, mark it delivered
