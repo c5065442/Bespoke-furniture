@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.urls import include, path
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
-
+from django.views.generic import TemplateView
 
 @csrf_exempt
 @require_GET
@@ -55,6 +55,7 @@ urlpatterns = [
     path("api/v1/", include("apps.orders.urls")),
     path("api/v1/", include("apps.delivery.urls")),
     path("api/v1/", include("apps.manufacturing.urls")),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
 ]
 
 if settings.DEBUG:
